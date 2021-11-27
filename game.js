@@ -1,4 +1,19 @@
-// computerPlay returns "rock", "paper" and "scissors" at random
+const scorePlayerNode = document.querySelector('[data-score="player"');
+const scoreComputerNode = document.querySelector('[data-score="computer"');
+const playsListNode = document.querySelector("ol");
+const overlayNode = document.querySelector(".overlay")
+resetGame();
+
+overlayNode.addEventListener('click', resetGame);
+
+const playsNode = document.querySelectorAll('[data-play]');
+playsNode.forEach(playNode => playNode.addEventListener('click', handleClick));
+
+function handleClick(event) {
+  const playerSelection = event.srcElement.dataset.play;
+  playRound(playerSelection);
+}
+
 function computerPlay() {
   const plays = ["rock", "paper", "scissors"];
   const index = Math.floor(Math.random() * 3);
@@ -6,72 +21,52 @@ function computerPlay() {
   return plays[index];
 }
 
+function determineWinner(playerSelection, computerSelection) {
+  const isDraw = playerSelection === computerSelection
+  if (isDraw) return "draw";
 
-// getResultPoint returns 0 when tie, 1 when player wins, -1 when player looses
-function getResultPoint(playerSelection, computerSelection) {
-  const isTie = playerSelection === computerSelection
-  if (isTie) {
-    console.log(getResultMessage("tie", playerSelection, computerSelection));
-    return 0;
-  }
   const rockBeatsScissors = playerSelection === "rock" & computerSelection === "scissors";
-  if (rockBeatsScissors) {
-    console.log(getResultMessage("win", playerSelection, computerSelection));
-    return 1;
-  }
+  if (rockBeatsScissors) return "player";
 
   const scissorsBeatsPaper = playerSelection === "scissors" & computerSelection === "paper";
-  if (scissorsBeatsPaper) {
-    console.log(getResultMessage("win", playerSelection, computerSelection));
-    return 1;
-  }
+  if (scissorsBeatsPaper) return "player";
+
   const paperBeatsRock = playerSelection === "paper" & computerSelection === "rock";
-  if (paperBeatsRock) {
-    console.log(getResultMessage("win", playerSelection, computerSelection));
-    return 1
-  }
+  if (paperBeatsRock) return "player";
 
-  console.log(getResultMessage("loose", playerSelection, computerSelection));
-  return -1;
+  return "computer";
 }
 
+function playRound(playerSelection) {
+  computerSelection = computerPlay();
+  winner = determineWinner(playerSelection, computerSelection)
 
-function getResultMessage(result, playerSelection, computerSelection) {
-  switch (result) {
-    case "win":
-      return `You win! ${playerSelection} beats ${computerSelection}.`;
-    case "loose":
-      return `You loose! ${playerSelection} is beaten by ${computerSelection}.`;
-    default:
-      return `Tie! Player and computer choose ${playerSelection}.`;
+  scorePlayer = Number(scorePlayerNode.textContent);
+  scoreComputer = Number(scoreComputerNode.textContent);
+
+  if (winner === "player") scorePlayer++;
+  if (winner === "computer") scoreComputer++;
+
+  scorePlayerNode.textContent = scorePlayer;
+  scoreComputerNode.textContent = scoreComputer;
+
+  const playNode = document.createElement("li");
+  playNode.textContent = `🧔 ${playerSelection} vs. ${computerSelection} 💻 (🧔 ${scorePlayer} | 💻 ${scoreComputer})`;
+  playsListNode.prepend(playNode);
+
+  if (scorePlayer >= 5) {
+    overlayNode.classList.remove('display-none');
+    overlayNode.textContent = `You won! 🥳 ${scorePlayer} | 💻 ${scoreComputer}`;
+  }
+  if (scoreComputer >= 5) {
+    overlayNode.classList.remove('display-none');
+    overlayNode.textContent = `You lost! 😿 ${scorePlayer} | 💻 ${scoreComputer}`;
   }
 }
 
-function game(rounds = 5, roundsPlayed = 0, resultPoints = 0) {
-  if (roundsPlayed === rounds) {
-    if (resultPoints === 0) console.log(`Overall you tied! You played ${rounds} rounds.`);
-    if (resultPoints > 0) console.log(`Overall you won!`);
-    if (resultPoints < 0) console.log(`Overall you lost!`);
-    return;
-  }
-
-  const playerSelection = prompt("Choose between 'rock', 'paper' or 'scissors'");
-  const isCancel = playerSelection === null;
-  if (isCancel) return "You canceled the game.";
-  const computerSelection = computerPlay();
-  const playerSelectionLower = playerSelection.toLowerCase();
-  const computerSelectionLower = computerSelection.toLowerCase();
-
-  const isValidPlayByPlayer = ["rock", "paper", "scissors"].includes(playerSelectionLower);
-  const isValidPlayByComputer = ["rock", "paper", "scissors"].includes(computerSelectionLower)
-  if (isValidPlayByPlayer === false) {
-    console.log(`Invalid play by player: ${playerSelection}`);
-    return game(rounds, roundsPlayed, resultPoints);
-  } else if (isValidPlayByComputer === false) {
-    console.log(`Invalid play by computer: ${computerSelection}`);
-    return game(rounds, roundsPlayed, resultPoints);
-  } {
-    const resultPoint = getResultPoint(playerSelectionLower, computerSelection);
-    return game(rounds, roundsPlayed + 1, resultPoints + resultPoint);
-  }
+function resetGame() {
+  scorePlayerNode.textContent = "0";
+  scoreComputerNode.textContent = "0";
+  playsListNode.textContent = "";
+  overlayNode.classList.add('display-none');
 }

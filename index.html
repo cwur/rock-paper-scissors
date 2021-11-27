@@ -3,10 +3,39 @@
 <html>
 
 <head>
-  <title>rock paper scissord</title>
+  <title>rock paper scissors</title>
   <meta charset="uft-8">
-
-  <script src="game.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
 </head>
+
+<body>
+
+  <div class="overlay display-none"></div>
+
+  <header>
+    rock - paper - scissors
+  </header>
+
+  <main>
+    <div class="choose">
+      <button data-play="rock">🗿</button>
+      <button data-play="scissors">✂️</button>
+      <button data-play="paper">🧻</button>
+    </div>
+
+    <div class="score">
+      score: 🧔 <span data-score="player">7</span> | 💻 <span data-score="computer">2</span>
+    </div>
+
+    <div class="plays">
+      <ol reversed>
+      </ol>
+    </div>
+
+  </main>
+
+
+</body>
 
 </html>
