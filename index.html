@@ -6,35 +6,36 @@
   <title>rock paper scissors</title>
   <meta charset="uft-8">
   <link rel="stylesheet" href="style.css">
-  <script src="game.js"></script>
+  <script src="game.js" defer></script>
 </head>
 
 <body>
+
+  <div class="overlay display-none"></div>
+
   <header>
     rock - paper - scissors
   </header>
 
   <main>
-    <button id="rock">🗿</button>
-    <button id="scissor">✂️</button>
-    <button id="paper">🧻</button>
+    <div class="choose">
+      <button data-play="rock">🗿</button>
+      <button data-play="scissors">✂️</button>
+      <button data-play="paper">🧻</button>
+    </div>
+
+    <div class="score">
+      score: 🧔 <span data-score="player">7</span> | 💻 <span data-score="computer">2</span>
+    </div>
+
+    <div class="plays">
+      <ol reversed>
+      </ol>
+    </div>
+
   </main>
 
-  <footer>
-    score: 🧔 5 | 💻 2
-  </footer>
 
-  <div class="plays">
-    <ol reversed>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-      <li>rock 🧔 vs. scissors 💻 (🧔 1 | 💻 0)</li>
-    </ol>
-  </div>
 </body>
 
 </html>
