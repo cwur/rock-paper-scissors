@@ -1,3 +1,5 @@
+const PLAYS_TO_WIN = 3;
+
 const scorePlayerNode = document.querySelector('[data-score="player"');
 const scoreComputerNode = document.querySelector('[data-score="computer"');
 const playsListNode = document.querySelector("ol");
@@ -54,11 +56,11 @@ function playRound(playerSelection) {
   playNode.textContent = `🧔 ${playerSelection} vs. ${computerSelection} 💻 (🧔 ${scorePlayer} | 💻 ${scoreComputer})`;
   playsListNode.prepend(playNode);
 
-  if (scorePlayer >= 5) {
+  if (scorePlayer >= PLAYS_TO_WIN) {
     overlayNode.classList.remove('display-none');
     overlayNode.textContent = `You won! 🥳 ${scorePlayer} | 💻 ${scoreComputer}`;
   }
-  if (scoreComputer >= 5) {
+  if (scoreComputer >= PLAYS_TO_WIN) {
     overlayNode.classList.remove('display-none');
     overlayNode.textContent = `You lost! 😿 ${scorePlayer} | 💻 ${scoreComputer}`;
   }
